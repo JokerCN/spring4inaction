@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:c="http://www.springframework.org/schema/c"
+       xsi:schemaLocation="
+            http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.springframework.org/schema/context
+            http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--<context:component-scan base-package="tech.tongyu.yyw.chapter2" />-->
+
+    <!--<bean id="compactDisc" class="tech.tongyu.yyw.chapter2.impl.SgtPeppers" />-->
+
+    <!--<bean id="compactDisc" class="tech.tongyu.yyw.chapter2.impl.BlankDisc"-->
+          <!--c:_0="Sgt. Pepper's Lonely Hearts Club Band"-->
+          <!--c:_1="The Beatles" />-->
+
+    <!--<bean id="compactDisc" class="tech.tongyu.yyw.chapter2.impl.BlankDisc">
+        <constructor-arg value="Sgt. Pepper's Lonely Hearts Club Band" />
+        <constructor-arg value="The Beatles" />
+        <constructor-arg><null/></constructor-arg>
+        <constructor-arg>
+            <list>
+                <value>Sgt. Pepper's Lonely Hearts Club Band</value>
+                <value>With a Little Help from My Friends</value>
+                <value>Lucy in the Sky with Diamonds</value>
+                <value>Getting Better</value>
+                <value>Fixing a Hole</value>
+            </list>
+            <set>
+                <value>Sgt. Pepper's Lonely Hearts Club Band</value>
+                <value>With a Little Help from My Friends</value>
+                <value>Lucy in the Sky with Diamonds</value>
+                <value>Getting Better</value>
+                <value>Fixing a Hole</value>
+            </set>
+        </constructor-arg>
+    </bean>-->
+
+    <!--<bean id="cdPlayer" class="tech.tongyu.yyw.chapter2.impl.CDPlayer">-->
+        <!--<constructor-arg ref="tech.tongyu.yyw.chapter2.impl.SgtPeppers#0"/>-->
+        <!--<constructor-arg ref="compactDisc" />-->
+    <!--</bean>-->
+
+    <bean id="cdPlayer" class="tech.tongyu.yyw.chapter2.impl.CDPlayer"
+          c:_0-ref="compactDisc" />
+
+    <import resource="cd-config.xml" />
+</beans>
