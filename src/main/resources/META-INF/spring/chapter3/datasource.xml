@@ -4,13 +4,22 @@
        xmlns:jdbc="http://www.springframework.org/schema/jdbc"
        xmlns:jee="http://www.springframework.org/schema/jee"
        xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="
             http://www.springframework.org/schema/beans
             http://www.springframework.org/schema/beans/spring-beans.xsd
             http://www.springframework.org/schema/jdbc
             http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
             http://www.springframework.org/schema/jee
-            http://www.springframework.org/schema/jee/spring-jee.xsd">
+            http://www.springframework.org/schema/jee/spring-jee.xsd
+            http://www.springframework.org/schema/context
+            http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:property-placeholder location="classpath:META-INF/spring/chapter3/app.properties" />
+
+    <bean id="appName" class="tech.tongyu.yyw.chapter3.placeholder.AppName">
+        <constructor-arg value="${app.name}"/>
+    </bean>
 
     <beans profile="dev">
         <jdbc:embedded-database id="dataSource" >
@@ -18,6 +27,5 @@
             <jdbc:script location="classpath:META-INF/spring/chapter3/sqls/test-data.sql" />
         </jdbc:embedded-database>
     </beans>
-
 
 </beans>

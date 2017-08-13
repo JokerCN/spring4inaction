@@ -3,9 +3,6 @@ package tech.tongyu.yyw.chapter2.impl;
 import org.springframework.stereotype.Component;
 import tech.tongyu.yyw.chapter2.intel.CompactDisc;
 
-/**
- * Created by super on 2017/7/23.
- */
 @Component
 public class SgtPeppers implements CompactDisc {
 
@@ -15,5 +12,13 @@ public class SgtPeppers implements CompactDisc {
     @Override
     public void play() {
         System.out.println("Playing " + title + " by " + artist);
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getArtist() {
+        return artist;
     }
 }
