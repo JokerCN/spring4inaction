@@ -4,8 +4,8 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
 
 //任意扩展AbstractAnnotationConfigDispatcherServletInitializer的类都会自动地配置DispatcherServlet和Spring应用上下文
 //Spring应用上下文回味与应用程序的Servlet上下文之中
-public class SpittrWebAppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
-    @Override
+public class SpittrWebAppInitializer /*extends AbstractAnnotationConfigDispatcherServletInitializer*/ {
+    /*@Override
     protected Class<?>[] getRootConfigClasses() {
         return new Class[]{RootConfig.class};
     }
@@ -18,5 +18,5 @@ public class SpittrWebAppInitializer extends AbstractAnnotationConfigDispatcherS
     @Override
     protected String[] getServletMappings() {
         return new String[] {"/"}; // 将DispatcherServlet映射到"/"
-    }
+    }*/
 }
