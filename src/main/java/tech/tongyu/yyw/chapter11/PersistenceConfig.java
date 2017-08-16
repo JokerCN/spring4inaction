@@ -1,28 +1,27 @@
 package tech.tongyu.yyw.chapter11;
 
-import com.alibaba.druid.pool.DruidDataSource;
-import org.springframework.beans.factory.annotation.Value;
+import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor;
 import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
-import java.io.IOException;
-import java.util.Properties;
 
 @Configuration
 @PropertySource("classpath:META-INF/spring/chapter11/datasource.properties")
 @EnableJpaRepositories(basePackageClasses = PersistenceConfig.class)
+@EnableTransactionManagement
 public class PersistenceConfig {
 
 	@Bean
@@ -34,7 +33,7 @@ public class PersistenceConfig {
 		return bean;
 	}
 
-	@Bean
+	/*@Bean
 	public DataSource dataSource(
 			@Value("${datasource.jdbc.url}") String url,
 			@Value("${datasource.jdbc.username}") String username,
@@ -54,10 +53,23 @@ public class PersistenceConfig {
 	) throws IOException{
 		DruidDataSource dataSource =  new DruidDataSource();
 		Properties properties = new Properties();
-		Resource resource = new ClassPathResource("META-INF/spring/chapter11/datasource.properties");
+		Resource resource = new ClassPathResource("META-INF/spring/chapter11/datasource2.properties");
 		properties.load(resource.getInputStream());
 		dataSource.setConnectProperties(properties);
 		return dataSource;
+	}*/
+
+	@Bean
+	public DataSource dataSource(){
+		BasicDataSource ds = new BasicDataSource();
+		ds.setDriverClassName("org.postgresql.Driver");
+//		ds.setDriver(new Driver());
+		ds.setUrl("jdbc:postgresql://localhost:5432/bct");
+		ds.setUsername("postgres");
+		ds.setPassword("or1oles1nG");
+		ds.setInitialSize(5);
+		ds.setMaxTotal(10);
+		return ds;
 	}
 
 
@@ -79,6 +91,11 @@ public class PersistenceConfig {
 	@Bean
 	public BeanPostProcessor persistenceTranslation(){
 		return new PersistenceExceptionTranslationPostProcessor();
+	}
+
+	@Bean
+	public DataSourceTransactionManager transactionManager(DataSource dataSource){
+		return new DataSourceTransactionManager(dataSource);
 	}
 
 }
