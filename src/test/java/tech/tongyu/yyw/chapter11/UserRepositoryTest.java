@@ -6,14 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import tech.tongyu.yyw.chapter11.domain.User;
-import tech.tongyu.yyw.chapter11.repo.UserRepository;
+import tech.tongyu.yyw.chapter11.repo.CustomUserRepository;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = PersistenceConfig.class)
 public class UserRepositoryTest {
 
 	@Autowired
-	private UserRepository userRepository;
+	private CustomUserRepository userRepository;
 
 	@Test
 	public void testUserPersistence(){
@@ -24,6 +24,8 @@ public class UserRepositoryTest {
 				"superyangyw@126.com"
 		);
 
-		userRepository.saveAndFlush(user);
+		userRepository.create(user);
+		userRepository.updateUsername(1L, "yyw");
+
 	}
 }

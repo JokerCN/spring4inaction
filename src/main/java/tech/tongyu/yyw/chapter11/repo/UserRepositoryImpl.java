@@ -1,10 +1,13 @@
 package tech.tongyu.yyw.chapter11.repo;
 
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import tech.tongyu.yyw.chapter11.domain.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+@Repository
 public class UserRepositoryImpl implements CustomUserRepository{
 	@PersistenceContext
 	private EntityManager em;
@@ -12,10 +15,13 @@ public class UserRepositoryImpl implements CustomUserRepository{
 	@Override
 	@Transactional
 	public void updateUsername(Long id, String username) {
-		String update =
-				"UPDATE User user " +
-						"SET user.username = 'yyw' ";
+		User user = em.find(User.class,id);
+		user.setUsername(username);
+	}
 
-		em.createQuery(update).executeUpdate();
+	@Override
+	@Transactional
+	public void create(User user){
+		em.persist(user);
 	}
 }

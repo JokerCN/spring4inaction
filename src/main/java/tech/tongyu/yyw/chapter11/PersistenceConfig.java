@@ -1,13 +1,15 @@
 package tech.tongyu.yyw.chapter11;
 
 import org.apache.commons.dbcp2.BasicDataSource;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor;
@@ -16,12 +18,14 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
 @Configuration
 @PropertySource("classpath:META-INF/spring/chapter11/datasource.properties")
-@EnableJpaRepositories(basePackageClasses = PersistenceConfig.class)
+@EnableJpaRepositories("tech.tongyu.yyw.chapter11.repo")
 @EnableTransactionManagement
+@ComponentScan(basePackageClasses = PersistenceConfig.class)
 public class PersistenceConfig {
 
 	@Bean
@@ -94,8 +98,11 @@ public class PersistenceConfig {
 	}
 
 	@Bean
-	public DataSourceTransactionManager transactionManager(DataSource dataSource){
-		return new DataSourceTransactionManager(dataSource);
+	public PlatformTransactionManager transactionManager(EntityManagerFactory entityManagerFactory){
+//		return new DataSourceTransactionManager(dataSource);
+		HibernateTransactionManager hibernateTransactionManager=  new HibernateTransactionManager();
+		hibernateTransactionManager.setSessionFactory(entityManagerFactory.unwrap(SessionFactory.class));
+		return hibernateTransactionManager;
 	}
 
 }
